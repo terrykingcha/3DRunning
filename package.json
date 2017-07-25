@@ -1,0 +1,25 @@
+{
+  "name": "3D-Running",
+  "version": "0.1.0",
+  "description": "A 3D Running Demo for the book of 《Three.js in Practise》",
+  "author": {
+    "name": "Terry King",
+    "email": "terrkingcha@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "3d",
+    "threejs",
+    "game"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "serve": "reload -b -p 9960 -s index.html"
+  },
+  "devDependencies": {
+    "reload": "~2.1.0"
+  }
+}
