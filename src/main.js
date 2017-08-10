@@ -3,6 +3,7 @@ requirejs([
     'flow/build',
     'flow/render',
     'animate/running',
+    'animate/control',
     'ticker',
     'debug'
 ], function(
@@ -10,6 +11,7 @@ requirejs([
     build,
     render,
     running,
+    control,
     ticker,
     debug
 ) {
@@ -19,6 +21,7 @@ requirejs([
         // window.THREE_DEBUG = true;
 
         ticker.add(render);
+        ticker.add(control);
         ticker.add(running);
         ticker.run();
     });

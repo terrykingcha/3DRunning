@@ -15,7 +15,7 @@ define([
 
         result.traverse(function(mesh) {
             if (mesh === result) return;
-            // mesh.geometry.computeBoundingBox();
+            mesh.geometry.computeBoundingBox();
             mesh.geometry.center();
         });
 

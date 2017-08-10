@@ -12,8 +12,6 @@ define([
     buildSpeedway
 ) {
     return function(manager) {
-        // scene.add(lights.ambient);
-
         var aircraft = buildAircraft(manager);
         var speadway = buildSpeedway();
         var path = speadway.path;

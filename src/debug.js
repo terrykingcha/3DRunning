@@ -26,8 +26,7 @@ define([
             }
         });
     });
-    
-    
+
     return function() {
         function debugon() {
             controls.enabled = true;
