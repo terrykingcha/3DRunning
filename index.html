@@ -11,13 +11,100 @@ html, body, canvas {
     padding: 0;
     overflow: hidden;
 }
+ 
+#ui {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+#ui img {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+#time {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    color: #FFF;
+    top: 30px;
+}
+
+#tips {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 32px;
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#tips .key img {
+    width: 200px;
+}
+
+#start {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 30px;
+    left: 0;
+}
+
+
+#start img {
+    width: 100px;
+    cursor: pointer;
+} 
+
+#ui.start > #result {
+    display: none;
+}
+
+#ui.running > #tips,
+    #ui.running > #start,
+    #ui.running > #result {
+    display: none;
+}
+
+#ui.result > #tips,
+    #ui.result > #start {
+    display: none;
+}
 </style>
 </head>
 <body>
-<script src="./libs/three.js"></script>
-<script src="./libs/three-extends/OBJLoader.js"></script>
-<script src="./libs/three-extends/MTLLoader.js"></script>
-<script src="./libs/three-extends/OrbitControls.js"></script>
-<script data-main="src/main.js" src="./libs/require.js"></script>
+<canvas></canvas>
+<div id="ui" class="start">
+    <div id="time">
+        <span class="hh">00</span>
+        <span>:</span>
+        <span class="mm">00</span>
+        <span>:</span>
+        <span class="ss">00</span>
+    </div>
+    <div id="tips">
+        <p>使用键盘上的方向键</p>
+        <div class="key">
+            <img src="assets/key.png" />
+        </div>
+        <p>控制飞行器的移动，来躲避障碍物</p>
+    </div>
+    <div id="start">
+        <img src="assets/start.png" />
+    </div>
+</div> 
+<script src="libs/three.js"></script>
+<script src="libs/three-extends/OBJLoader.js"></script> 
+<script src="libs/three-extends/MTLLoader.js"></script> 
+<script src="src/main.js"></script>
 </body>
 </html>
