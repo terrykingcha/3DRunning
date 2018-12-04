@@ -124,9 +124,9 @@ function randomPathPoints() {
     for (var i = 1; i < len; i++) {
         var t = i / len;
         var vector = path.getPoint(t);
-        // 在x,y上随机偏移[-80，-50]或[50, 80]范围内的一个点。
-        vector.x += (Math.random() * 30 + 50) * (Math.random() > 0.5 ? 1 : -1); 
-        vector.y += (Math.random() * 30 + 50) * (Math.random() > 0.5 ? 1 : -1);
+        // 在x,y上随机偏移[-80，80]范围内的一个点。
+        vector.x += (Math.random() * 160 - 80); 
+        vector.y += (Math.random() * 160 - 80);
         vector.t = t; // 记录下该点在路径上所处位置
         pathPoints.push(vector);
     }
@@ -181,14 +181,14 @@ function removeUpdate(fn) { // 从队列中删除函数
 var lastTime;
 var animateId;
 function animate() {
-    var now = Date.now();
+    animateId = requestAnimationFrame(animate); // 尽快执行下一个动画帧
+    var now = performance.now(); // 获取页面启动时的时间
     if (!lastTime) {
         lastTime = now;
     }
     var delta = now - lastTime;
     lastTime = now;
 
-    animateId = requestAnimationFrame(animate); // 尽快执行下一个动画帧
     updates.forEach(function(fn) { // 依次调用更新函数
         typeof fn === 'function' && fn(delta);
     });
@@ -207,15 +207,14 @@ function moveAlongPath(delta) {
 
     var t = playElapsed / (20 * 1000); // 时间单位是毫秒
     var p1 = path.getPoint(t % 1); // 当前时刻的位置
-    // 用增加时间的方式，来获得路径上比当前位置往前的位置
-    var p2 = path.getPoint((t + 0.04) % 1); 
-    var p3 = path.getPoint((t + 0.05) % 1);
+    var p2 = path.getPoint((t + 0.04) % 1); // 往前偏移一点位置
+    var p3 = path.getPoint((t + 0.05) % 1); // 往前偏移一点位置
 
     aircraft.t = t + 0.04; // 飞船在路径上的位置
     aircraft.visible = true;
     aircraft.position.copy(p2); // 飞船的位置
     aircraft.lookAt(p3); // 飞船注视前进方向上的某一点
-    camera.position.copy(p1); // 摄像机在当位置
+    camera.position.copy(p1); // 相机在当位置
     camera.lookAt(aircraft.position);    // 并注视着飞船
     cameraLight.position.copy(camera.position); // 灯光跟随相机
 }
@@ -327,6 +326,7 @@ function checkCrash() {
 
     // 检测撞击
     if (aircraftBox.intersectsBox(brarrierBox)) {
+        uiContainer.className = 'result';
         cancelAnimate();
     }
 }
@@ -353,7 +353,7 @@ load(function() {
     });
 
     aircraft.scale.set(0.1, 0.1, 0.1); // 缩小模型
-    aircraft.rotation.set(0, Math.PI, 0); // 让模型背面面对玩家
+    aircraft.rotation.set(0, Math.PI, 0); // 旋转飞船，让其背对玩家
     aircraft.traverse(function(obj) { // 遍历对象和其子元素
         if (obj.isMesh) {
             obj.geometry.center(); // 找到网格实例并把几何体调整到中心位置
@@ -364,7 +364,7 @@ load(function() {
     camera.position.copy(path.getPoint(0)); // 相机位于起始点
     cameraLight.position.copy(camera.position); // 在相机的位置放置点光源
 
-    render(); // 用指定的相机来渲染场景
+    render();   // 先渲染下场景
     addUpdate(moveAlongPath); // 让飞船沿着路径飞行的更新函数
     addUpdate(control); // 控制飞船移动的更新函数
     addUpdate(time); // 展示经过时间的更新函数
